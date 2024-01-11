@@ -1,256 +1,261 @@
-import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import React, { useState } from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Menu, MenuItem } from "@mui/material";
 
-const drawerWidth = 240;
-
+const drawerWidth = 300;
 const navItems = [
   { text: "Home", link: "/" },
   { text: "About", link: "/about" },
-  { text: "Team", link: "/about/team" },
+  { text: "Team", link: "/team" },
   { text: "Contact", link: "/contact" },
 ];
 
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
+const userItems = [
+  { text: "Login", link: "/login" },
+  { text: "Signup", link: "/signup" },
+];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
+const Navbar = ({ window, handleRouteChange, startLoading }) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [auth, setAuth] = useState(false);
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-      ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-  }),
-);
-
-export default function MiniDrawer() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
   };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
+  const handleMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
   };
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#8b3eea" }}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-            <List sx={{ display: 'flex', margin: '0px auto' }}>
-            {navItems.map((item, index) => (
-              <ListItem key={item.text} disablePadding>
-                <ListItemButton                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-                  component="a" 
-                  href={item.link}
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: 'center',
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemText primary={item.text}/>
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          </IconButton>
-          <List sx={{ display: 'flex', margin: '0px auto' }}>
-            {navItems.map((item, index) => (
-              <ListItem key={item.text} disablePadding>
-                <ListItemButton
-                  component="a" 
-                  href={item.link}
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: 'center',
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <Divider />
-          <List>
-            {['Travel Booking'].map((text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1 }}>
-        <DrawerHeader />
-      </Box>
-      <List sx={{ display: 'flex', margin: '0px auto' }}>
-            {navItems.map((item, index) => (
-              <ListItem key={item.text} disablePadding>
-                <ListItemButton
-                  component="a" 
-                  href={item.link}
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleNavLinkClick = () => {
+    startLoading();
+    setMobileOpen(false); // Close the drawer when a link is clicked on mobile
+  };
+
+  const drawer = (
+    <Box
+      onClick={handleDrawerToggle}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: drawerWidth,
+      }}
+    >
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton
+              component={Link}
+              to={item.link}
+              onClick={() => {
+                handleNavLinkClick();
+                handleRouteChange();
+              }}
+              sx={{
+                textAlign: "center",
+                color: "black",
+                textTransform: "capitalize",
+              }}
+            >
+              {item.nestedItems ? (
+                <>
+                  {item.text}
+                  <ArrowDropDownIcon />
+                  <List>
+                    {item.nestedItems.map((nestedItem) => (
+                      <ListItem key={nestedItem.text} disablePadding>
+                        <ListItemButton
+                          component={Link}
+                          to={nestedItem.link}
+                          onClick={() => {
+                            handleNavLinkClick();
+                            handleRouteChange();
+                          }}
+                          sx={{ color: "black" }}
+                        >
+                          <ListItemText primary={nestedItem.text} />
+                        </ListItemButton>
+                      </ListItem>
+                    ))}
+                  </List>
+                </>
+              ) : (
+                <ListItemText primary={item.text} />
+              )}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
     </Box>
   );
-}
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
+  return (
+    <>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar component="nav" sx={{ backgroundColor: "#8b3eea" }}>
+          <Toolbar>
+            <Box sx={{ display: { xs: "block", sm: "none" } }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ color: "#fff" }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                flexGrow: 1,
+                display: "block",
+                textAlign: { xs: "center", sm: "left", md: "left" },
+                color: "#fff",
+              }}
+            >
+              <Link
+                to="/"
+                onClick={() => {
+                  handleNavLinkClick();
+                  handleRouteChange();
+                }}
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                Logo
+              </Link>
+            </Typography>
+            <Box
+              sx={{
+                display: { xs: "none", sm: "block" },
+                flex: 5,
+                textAlign: "center",
+              }}
+            >
+              {navItems.map((item) => (
+                <Button
+                  key={item.text}
+                  to={item.link}
+                  component={Link}
+                  onClick={() => {
+                    handleNavLinkClick();
+                    handleRouteChange();
+                  }}
+                  sx={{
+                    color: "#fff",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {item.text}
+                </Button>
+              ))}
+            </Box>
+            {auth ? (
+              <div>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircleIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </div>
+            ) : (
+              userItems.map((items) => (
+                <Button
+                  key={items.text}
+                  to={items.link}
+                  component={Link}
+                  onClick={() => {
+                    handleNavLinkClick();
+                    handleRouteChange();
+                  }}
+                  sx={{
+                    color: "#fff",
+                    textAlign: "right",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {items.text}
+                </Button>
+              ))
+            )}
+          </Toolbar>
+        </AppBar>
+        <nav>
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true,
+            }}
+            anchor="left"
+            sx={{
+              display: { xs: "block", sm: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </nav>
+      </Box>
+    </>
+  );
+};
+
+export default Navbar;

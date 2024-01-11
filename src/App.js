@@ -16,8 +16,6 @@ import MobileLogin from "./MobileLogin";
 import OTPVerification from "./OTPVerification";
 import Newsletter from "./Newsletter";
 import Footer from "./Footer";
-import { ThemeProvider } from "@material-ui/styles";
-import theme from "./Theme";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -47,7 +45,6 @@ const App = () => {
 
   return (
     <div>
-      <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Navbar startLoading={startLoading} handleRouteChange={handleRouteChange} />
         {loading ? (
@@ -59,7 +56,7 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/about/team" element={<Team />} />
+              <Route path="/team" element={<Team />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/error" element={<Error />} />
@@ -75,7 +72,6 @@ const App = () => {
         <Newsletter />
         <Footer />
       </BrowserRouter>
-      </ThemeProvider>
     </div>
   );
 };
