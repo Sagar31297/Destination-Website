@@ -1,0 +1,103 @@
+/* body {
+  background-color: #8b3eea;
+} */
+
+body {
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+.home-banner {
+  background: url("../public/images/image59.png");
+  padding: 370px 0 280px 0;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.common-banner {
+  background: url("../public/images/image58.png");
+  padding: 200px 0 130px 0;
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.icons_style {
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 1);
+  border-radius: 50%;
+  background-color: white;
+  color: #8b3eea;
+  margin-left: 10px;
+  transition: transform 0.4s ease-in-out;
+  transform: translateY(0);
+  cursor: pointer;
+}
+
+.icons_style:hover {
+  transition: transform 0.4s ease-in-out;
+  transform: translateY(-10px);
+  cursor: pointer;
+}
+
+.icons_style:not(:hover) {
+  transition: transform 0.4s ease-in-out;
+  transform: translateY(0);
+}
+
+.left-aligned-button {
+  /* text-align: center; */
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.scaleEffect {
+  height: 350px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.scaleEffect img {
+  transition: all 0.4s ease;
+}
+.scaleEffect:hover img {
+  transform: scale(1.15);
+}
+.scaleEffect .content {
+  transition: all 0.4s ease;
+}
+.scaleEffect:hover .content {
+  background-color: rgba(53, 40, 40, 0.6);
+  color: #fff;
+}
+.colorEffectOverlay {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.colorEffectOverlay img {
+  transition: all 0.4s ease;
+}
+
+.colorEffectOverlay:hover img {
+  transform: scale(1.06);
+  border-radius: 10px;
+}
+
+.colorEffectOverlay::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(161, 71, 184, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.colorEffectOverlay:hover::after {
+  opacity: 1;
+}
